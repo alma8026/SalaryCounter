@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Sueldo</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 15px;
+    background: #f2f3f5;
+    color: #171717;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    max-width: 550px;
+    margin: auto;
+}
+
+/* CABECERA */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.theme {
+    width: 45px;
+    height: 45px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: white;
+    font-size: 20px;
+}
+
+/* ESTADO */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.paused {
+    background: #e5e7eb;
+    color: #777;
+}
+
+.working {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* TARJETA PRINCIPAL */
+
+.main-card {
+    background: white;
+    border-radius: 25px;
+    padding: 28px 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+.label {
+    color: #888;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.money {
+    margin-top: 8px;
+    font-size: 60px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.rate {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    color: #888;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* TIEMPO */
+
+.time-box {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.time {
+    margin-top: 8px;
+    font-family: monospace;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* EDITOR DE TIEMPO */
+
+.editor {
+    margin-top: 18px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 15px;
+}
+
+.editor-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.input-group label {
+    display: block;
+    color: #888;
+    font-size: 9px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 5px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.update-time {
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px;
+    border: none;
+    border-radius: 11px;
+    background: #16a34a;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* PROGRESO */
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.progress-header strong {
+    color: #16a34a;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: #16a34a;
+    border-radius: 20px;
+}
+
+.progress-times {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* BOTONES */
+
+.start {
+    width: 100%;
+    margin-top: 25px;
+    padding: 18px;
+    border: none;
+    border-radius: 15px;
+    background: #171717;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.reset {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background: white;
+    color: #555;
+    font-weight: bold;
+}
+
+/* ESTADÍSTICAS */
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.stat {
+    background: white;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.stat small {
+    display: block;
+    color: #888;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.stat strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 17px;
+}
+
+/* INFORMACIÓN */
+
+.card {
+    margin-top: 15px;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row span {
+    color: #777;
+}
+
+/* RESUMEN */
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.summary-box {
+    background: #f5f5f5;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.summary-box small {
+    display: block;
+    color: #888;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.summary-box strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 17px;
+}
+
+footer {
+    text-align: center;
+    color: #999;
+    font-size: 10px;
+    padding: 25px;
+}
+
+@media(max-width:450px) {
+
+    .money {
+        font-size: 48px;
+    }
+
+    .time {
+        font-size: 27px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- CABECERA -->
+
+    <div class="header">
+
+        <div>
+            <div class="title">💰 Mi sueldo</div>
+            <div class="subtitle">Contador de jornada</div>
+        </div>
+
+        <button class="theme" id="theme">🌙</button>
+
+    </div>
+
+
+    <!-- ESTADO -->
+
+    <div id="status" class="status paused">
+
+        <span class="dot"></span>
+
+        <span id="statusText">
+            PAUSADO
+        </span>
+
+    </div>
+
+
+    <!-- CONTADOR -->
+
+    <div class="main-card">
+
+        <div class="label">
+            HAS GANADO
+        </div>
+
+        <div id="money" class="money">
+            0,00 €
+        </div>
+
+        <div class="rate">
+
+            <span id="hourRate">
+                6,43 €/h
+            </span>
+
+            <span>•</span>
+
+            <span id="minuteRate">
+                0,1072 €/min
+            </span>
+
+        </div>
+
+
+        <!-- TIEMPO -->
+
+        <div class="time-box">
+
+            <div class="label">
+                TIEMPO TRABAJADO
+            </div>
+
+            <div id="time" class="time">
+                00:00:00
+            </div>
+
+
+            <!-- EDITAR TIEMPO -->
+
+            <div class="editor">
+
+                <div class="editor-title">
+                    ✏️ Ajustar tiempo trabajado
+                </div>
+
+
+                <div class="inputs">
+
+                    <div class="input-group">
+
+                        <label>HORAS</label>
+
+                        <input
+                            id="hoursInput"
+                            type="number"
+                            min="0"
+                            value="0">
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>MINUTOS</label>
+
+                        <input
+                            id="minutesInput"
+                            type="number"
+                            min="0"
+                            max="59"
+                            value="0">
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>SEGUNDOS</label>
+
+                        <input
+                            id="secondsInput"
+                            type="number"
+                            min="0"
+                            max="59"
+                            value="0">
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="updateTime"
+                    class="update-time">
+
+                    ✓ ACTUALIZAR TIEMPO
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESO -->
+
+        <div class="progress-header">
+
+            <span>
+                Progreso de la jornada
+            </span>
+
+            <strong id="percent">
+                0,0%
+            </strong>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                id="progress"
+                class="progress">
+            </div>
+
+        </div>
+
+
+        <div class="progress-times">
+
+            <span>
+                0h 00m
+            </span>
+
+            <span>
+                6h 40m
+            </span>
+
+        </div>
+
+
+        <!-- INICIAR -->
+
+        <button
+            id="start"
+            class="start">
+
+            ▶ INICIAR
+
+        </button>
+
+
+        <!-- REINICIAR -->
+
+        <button
+            id="reset"
+            class="reset">
+
+            ↻ REINICIAR JORNADA
+
+        </button>
+
+    </div>
+
+
+    <!-- ESTADÍSTICAS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <small>POR HORA</small>
+
+            <strong id="hourStat">
+                6,43 €
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>1 CÉNTIMO CADA</small>
+
+            <strong>
+                5,60 s
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>JORNADA COMPLETA</small>
+
+            <strong id="dayStat">
+                42,86 €
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>DÍAS POR SEMANA</small>
+
+            <strong>
+                6 días
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="card">
+
+        <div class="card-title">
+            📊 Información salarial
+        </div>
+
+
+        <div class="row">
+            <span>Sueldo mensual</span>
+            <strong>1.114,04 €</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Horas semanales</span>
+            <strong>40 h</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Días por semana</span>
+            <strong>6 días</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Horas por día</span>
+            <strong>6 h 40 min</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Horas mensuales</span>
+            <strong id="monthlyHours">173,33 h</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Ganancia por minuto</span>
+            <strong id="minuteInfo">0,1072 €</strong>
+        </div>
+
+
+        <div class="row">
+            <span>Ganancia por segundo</span>
+            <strong id="secondInfo">0,001786 €</strong>
+        </div>
+
+    </div>
+
+
+    <!-- RESUMEN -->
+
+    <div class="card">
+
+        <div class="card-title">
+            📈 Resumen de hoy
+        </div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <small>TIEMPO</small>
+
+                <strong id="summaryTime">
+                    00:00:00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <small>GANADO</small>
+
+                <strong id="summaryMoney">
+                    0,00 €
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <small>FALTA</small>
+
+                <strong id="summaryRemaining">
+                    6h 40m
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <small>ESTIMACIÓN FINAL</small>
+
+                <strong id="summaryFinal">
+                    42,86 €
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        Mi sueldo · Guardado automáticamente
+    </footer>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   CONFIGURACIÓN
+===================================== */
+
+const SUELDO_MENSUAL = 1114.04;
+
+const HORAS_SEMANALES = 40;
+
+const DIAS_SEMANALES = 6;
+
+
+/*
+  40 / 6 = 6,6667 horas al día
+  = 6 horas 40 minutos
+*/
+
+const HORAS_DIA =
+    HORAS_SEMANALES / DIAS_SEMANALES;
+
+
+/*
+  52 semanas / 12 meses
+*/
+
+const HORAS_MENSUALES =
+    HORAS_SEMANALES * 52 / 12;
+
+
+/*
+  Dinero por hora
+*/
+
+const EUROS_HORA =
+    SUELDO_MENSUAL / HORAS_MENSUALES;
+
+
+/*
+  Dinero por minuto
+*/
+
+const EUROS_MINUTO =
+    EUROS_HORA / 60;
+
+
+/*
+  Dinero por segundo
+*/
+
+const EUROS_SEGUNDO =
+    EUROS_MINUTO / 60;
+
+
+/*
+  Duración de la jornada
+*/
+
+const SEGUNDOS_JORNADA =
+    HORAS_DIA * 3600;
+
+
+/*
+  Dinero de una jornada completa
+*/
+
+const GANANCIA_JORNADA =
+    SEGUNDOS_JORNADA * EUROS_SEGUNDO;
+
+
+/* =====================================
+   VARIABLES
+===================================== */
+
+let trabajando = false;
+
+let inicio = 0;
+
+let acumulado = 0;
+
+
+/* =====================================
+   ELEMENTOS
+===================================== */
+
+const money =
+    document.getElementById("money");
+
+const time =
+    document.getElementById("time");
+
+const start =
+    document.getElementById("start");
+
+const reset =
+    document.getElementById("reset");
+
+const progress =
+    document.getElementById("progress");
+
+const percent =
+    document.getElementById("percent");
+
+const status =
+    document.getElementById("status");
+
+const statusText =
+    document.getElementById("statusText");
+
+const hoursInput =
+    document.getElementById("hoursInput");
+
+const minutesInput =
+    document.getElementById("minutesInput");
+
+const secondsInput =
+    document.getElementById("secondsInput");
+
+const updateTime =
+    document.getElementById("updateTime");
+
+
+/* =====================================
+   FORMATO EUROS
+===================================== */
+
+function euros(valor) {
+
+    return valor
+        .toFixed(2)
+        .replace(".", ",") + " €";
+
+}
+
+
+/* =====================================
+   FORMATO TIEMPO
+===================================== */
+
+function formatoTiempo(segundos) {
+
+    segundos =
+        Math.max(
+            0,
+            Math.floor(segundos)
+        );
+
+
+    const horas =
+        Math.floor(
+            segundos / 3600
+        );
+
+
+    const minutos =
+        Math.floor(
+            (segundos % 3600) / 60
+        );
+
+
+    const segundosRestantes =
+        segundos % 60;
+
+
+    return (
+        String(horas).padStart(2, "0")
+        + ":" +
+        String(minutos).padStart(2, "0")
+        + ":" +
+        String(segundosRestantes).padStart(2, "0")
+    );
+
+}
+
+
+/* =====================================
+   TIEMPO CORTO
+===================================== */
+
+function formatoCorto(segundos) {
+
+    segundos =
+        Math.max(
+            0,
+            Math.floor(segundos)
+        );
+
+
+    const horas =
+        Math.floor(
+            segundos / 3600
+        );
+
+
+    const minutos =
+        Math.floor(
+            (segundos % 3600) / 60
+        );
+
+
+    return horas + "h " + minutos + "m";
+
+}
+
+
+/* =====================================
+   OBTENER TIEMPO ACTUAL
+===================================== */
+
+function obtenerTiempo() {
+
+    let total =
+        acumulado;
+
+
+    if (trabajando) {
+
+        total +=
+            (Date.now() - inicio) / 1000;
+
+    }
+
+
+    return total;
+
+}
+
+
+/* =====================================
+   ACTUALIZAR INTERFAZ
+===================================== */
+
+function actualizar() {
+
+    const segundos =
+        obtenerTiempo();
+
+
+    const ganado =
+        segundos * EUROS_SEGUNDO;
+
+
+    /* DINERO */
+
+    money.textContent =
+        euros(ganado);
+
+
+    /* TIEMPO */
+
+    time.textContent =
+        formatoTiempo(segundos);
+
+
+    /* GANANCIA/HORA */
+
+    document.getElementById("hourRate")
+        .textContent =
+        euros(EUROS_HORA) + "/h";
+
+
+    /* GANANCIA/MINUTO */
+
+    document.getElementById("minuteRate")
+        .textContent =
+        EUROS_MINUTO
+            .toFixed(4)
+            .replace(".", ",") +
+        " €/min";
+
+
+    /* ==============================
+       PROGRESO
+    ============================== */
+
+    let porcentaje =
+        (segundos / SEGUNDOS_JORNADA) * 100;
+
+
+    porcentaje =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                porcentaje
+            )
+        );
+
+
+    progress.style.width =
+        porcentaje + "%";
+
+
+    percent.textContent =
+        porcentaje
+            .toFixed(1)
+            .replace(".", ",") +
+        "%";
+
+
+    /* ==============================
+       RESUMEN
+    ============================== */
+
+    document.getElementById("summaryTime")
+        .textContent =
+        formatoTiempo(segundos);
+
+
+    document.getElementById("summaryMoney")
+        .textContent =
+        euros(ganado);
+
+
+    const restante =
+        Math.max(
+            0,
+            SEGUNDOS_JORNADA - segundos
+        );
+
+
+    document.getElementById("summaryRemaining")
+        .textContent =
+        formatoCorto(restante);
+
+
+    document.getElementById("summaryFinal")
+        .textContent =
+        euros(GANANCIA_JORNADA);
+
+
+    guardar();
+
+}
+
+
+/* =====================================
+   GUARDAR
+===================================== */
+
+function guardar() {
+
+    localStorage.setItem(
+        "miSueldo",
+        JSON.stringify({
+
+            trabajando: trabajando,
+
+            inicio: inicio,
+
+            acumulado: acumulado
+
+        })
+    );
+
+}
+
+
+/* =====================================
+   CARGAR
+===================================== */
+
+function cargar() {
+
+    const datos =
+        localStorage.getItem("miSueldo");
+
+
+    if (!datos) {
+
+        actualizar();
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            JSON.parse(datos);
+
+
+        acumulado =
+            Number(data.acumulado) || 0;
+
+
+        trabajando =
+            data.trabajando === true;
+
+
+        inicio =
+            Number(data.inicio) || 0;
+
+
+        if (trabajando) {
+
+            start.textContent =
+                "⏸ PAUSAR";
+
+            status.className =
+                "status working";
+
+            statusText.textContent =
+                "TRABAJANDO";
+
+        }
+
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+
+    actualizar();
+
+}
+
+
+/* =====================================
+   BOTÓN INICIAR / PAUSAR
+===================================== */
+
+start.addEventListener(
+    "click",
+    function() {
+
+
+        if (!trabajando) {
+
+
+            inicio =
+                Date.now();
+
+
+            trabajando =
+                true;
+
+
+            start.textContent =
+                "⏸ PAUSAR";
+
+
+            status.className =
+                "status working";
+
+
+            statusText.textContent =
+                "TRABAJANDO";
+
+
+        } else {
+
+
+            acumulado +=
+                (Date.now() - inicio) / 1000;
+
+
+            trabajando =
+                false;
+
+
+            start.textContent =
+                "▶ CONTINUAR";
+
+
+            status.className =
+                "status paused";
+
+
+            statusText.textContent =
+                "PAUSADO";
+
+        }
+
+
+        actualizar();
+
+    }
+);
+
+
+/* =====================================
+   ACTUALIZAR TIEMPO MANUALMENTE
+===================================== */
+
+updateTime.addEventListener(
+    "click",
+    function() {
+
+
+        let horas =
+            parseInt(
+                hoursInput.value
+            ) || 0;
+
+
+        let minutos =
+            parseInt(
+                minutesInput.value
+            ) || 0;
+
+
+        let segundos =
+            parseInt(
+                secondsInput.value
+            ) || 0;
+
+
+        /* EVITAR NEGATIVOS */
+
+        horas =
+            Math.max(
+                0,
+                horas
+            );
+
+
+        minutos =
+            Math.max(
+                0,
+                Math.min(
+                    59,
+                    minutos
+                )
+            );
+
+
+        segundos =
+            Math.max(
+                0,
+                Math.min(
+                    59,
+                    segundos
+                )
+            );
+
+
+        /*
+          Convertimos el tiempo
+          introducido a segundos.
+        */
+
+        const nuevoTiempo =
+            horas * 3600 +
+            minutos * 60 +
+            segundos;
+
+
+        /*
+          Si está trabajando:
+
+          acumulado = nuevo tiempo
+          inicio = ahora
+
+          De esta forma el contador
+          continúa desde el tiempo
+          que acabamos de introducir.
+        */
+
+        acumulado =
+            nuevoTiempo;
+
+
+        if (trabajando) {
+
+            inicio =
+                Date.now();
+
+        }
+
+
+        actualizar();
+
+
+        /*
+          Feedback visual
+        */
+
+        updateTime.textContent =
+            "✓ TIEMPO ACTUALIZADO";
+
+
+        setTimeout(
+            function() {
+
+                updateTime.textContent =
+                    "✓ ACTUALIZAR TIEMPO";
+
+            },
+            1200
+        );
+
+    }
+);
+
+
+/* =====================================
+   REINICIAR
+===================================== */
+
+reset.addEventListener(
+    "click",
+    function() {
+
+
+        if (
+            !confirm(
+                "¿Seguro que quieres reiniciar la jornada?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        trabajando = false;
+
+        inicio = 0;
+
+        acumulado = 0;
+
+
+        start.textContent =
+            "▶ INICIAR";
+
+
+        status.className =
+            "status paused";
+
+
+        statusText.textContent =
+            "PAUSADO";
+
+
+        actualizar();
+
+    }
+);
+
+
+/* =====================================
+   MODO OSCURO
+===================================== */
+
+document.getElementById("theme")
+    .addEventListener(
+        "click",
+        function() {
+
+            document.body.classList.toggle(
+                "dark"
+            );
+
+
+            this.textContent =
+                document.body.classList.contains("dark")
+                    ? "☀️"
+                    : "🌙";
+
+        }
+    );
+
+
+/* =====================================
+   INFORMACIÓN FIJA
+===================================== */
+
+document.getElementById("hourStat")
+    .textContent =
+    euros(EUROS_HORA);
+
+
+document.getElementById("dayStat")
+    .textContent =
+    euros(GANANCIA_JORNADA);
+
+
+document.getElementById("monthlyHours")
+    .textContent =
+    HORAS_MENSUALES
+        .toFixed(2)
+        .replace(".", ",") +
+    " h";
+
+
+document.getElementById("minuteInfo")
+    .textContent =
+    EUROS_MINUTO
+        .toFixed(4)
+        .replace(".", ",") +
+    " €";
+
+
+document.getElementById("secondInfo")
+    .textContent =
+    EUROS_SEGUNDO
+        .toFixed(6)
+        .replace(".", ",") +
+    " €";
+
+
+/* =====================================
+   ACTUALIZACIÓN
+===================================== */
+
+setInterval(
+    actualizar,
+    100
+);
+
+
+/* =====================================
+   INICIAR APP
+===================================== */
+
+cargar();
+
+</script>
+
+</body>
+</html>
